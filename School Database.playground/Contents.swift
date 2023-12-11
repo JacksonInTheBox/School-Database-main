@@ -39,10 +39,10 @@ struct Teacher {
 
 /*:5.A School should be able to find the Teacher who matches a given ID. Let’s add a function that returns the Teacher associated with an ID. If the Teacher works in the School, the function should return that Teacher. If the Teacher isn’t in the School, then the function should return nil. Get started by adding a new method to the School called getTeacher(withID:)that takes in an ID named “id” of type Int with an argument label “withID” and returns an optional `Teacher.
  */
-
 struct School {
     var name: String
     var teachers: [Teacher]
+    var students: [Student]
 
     func getTeacher(withID id: Int) -> Teacher? {
         for teacher in teachers {
@@ -53,8 +53,33 @@ struct School {
         
         return nil
     }
-}
 
+    func printFavoriteTeacherInfo(for student: Student) {
+        guard let favoriteTeacherID = student.favoriteTeacherID else {
+            print("\(student.name) has no favorite teacher.")
+            return
+        }
+
+        if let favoriteTeacher = getTeacher(withID: favoriteTeacherID) {
+            print("Favorite Teacher Information for \(student.name):")
+            print("Name: \(favoriteTeacher.name)")
+            
+            if let hairColor = favoriteTeacher.hairColor {
+                print("Hair Color: \(hairColor)")
+            } else {
+                print("Hair Color: Not specified")
+            }
+
+            if let emailAddress = favoriteTeacher.email {
+                print("Email Address: \(emailAddress)")
+            } else {
+                print("Email Address: No email account")
+            }
+        } else {
+            print("Error: Teacher with ID \(favoriteTeacherID) not found in the school.")
+        }
+    }
+}
 
 /*:6. Now build the body of the **getTeacher(withID:)** method. In it you should:
  * Iterate over the Teachers
